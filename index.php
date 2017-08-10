@@ -13,7 +13,7 @@ require_once('./classes/recordset.class.php');
 require_once('./classes/pdoDB.class.php');
 
 //Start Session
-session_start();
+// session_start();
 
 
 //Standard REQUEST
@@ -93,20 +93,23 @@ switch ($route) {
         //             </table>";
         break;
 
-    case 'addBook':
-        $sqlInsert = "INSERT INTO `newtable`.`library` (`Genre`, `Title`)
-        VALUES (:bookGenre, :bookTitle)";
+    // case 'addBook':
+    //     $sqlInsert = "INSERT INTO `newtable`.`library` (`Genre`, `Title`)
+    //     VALUES (:bookGenre, :bookTitle)";
 
-        $rs = new JSONRecordSet();
+    //     $rs = new JSONRecordSet();
 
-        $retval = $rs->setRecord($sqlInsert, null,
-            array(
-                ':bookGenre' => $bookGenre,
-                ':bookTitle' => $bookTitle,
+    //     $retval = $rs->setRecord($sqlInsert, null,
+    //         array(
+    //             ':bookGenre' => $bookGenre,
+    //             ':bookTitle' => $bookTitle,
 
-            ));
-        echo $retval;
-        break;
+    //         ));
+    //     echo $retval;
+    //     break;
+
+    case 'addBook': $sqlInsert="INSERT INTO `newtable`.`library` (`Genre`, `Title`) VALUES (:Genre,:Title)"; $rs = new JSONRecordSet(); $retval = $rs->setRecord($sqlInsert, null, array(':Genre'=>$Genre,   ':Title'=>$Title )); echo $retval; break;
+        
     
     case 'addRating':
         $sqlInsert = "INSERT INTO `newtable`.`rating` 
@@ -181,6 +184,8 @@ switch ($route) {
             if ($passcode == $json['results'][0]['passcode']){
                 echo "Login Successful";
                 echo "<a href='testing.php'>Click me to go into home page</a>";
+                session_start();
+                $_SESSION['ticket']=TRUE;
                 }
             else
                 echo "Login failed";
